@@ -10,7 +10,7 @@ function App() {
       <header className="App-header">
         <img src={logo} className="App-logo" alt="logo" />
         <p>
-          Welcome to BarCaptain
+          Welcome to BarCaptain. OR NOT?
         </p>
         <a
           className="App-link"
