@@ -4,8 +4,8 @@ const nullProduct = {
     category: '',
     subcategory: '',
     description: '',
-    photoUrl: '',
-    products: [],
+    // photoUrl: '',
+    drinks: [],
 }
 
 const initialState = {
@@ -16,9 +16,12 @@ const initialState = {
 const productReducer = (state=initialState, action) => {
     switch(action.type){
         case "ADD_PRODUCTS":
-            return {...state, products: action.payload}
+            // console.log(action.payload.data[0].attributes)
+            const productList = action.payload.data.map(prod => prod.attributes)
+            return {...state, products: productList}
         case "SET_SELECTED_PRODUCT":
-            return {...state, selectedProduct: action.payload}
+            // console.log(action.payload.data.attributes)
+            return {...state, selectedProduct: action.payload.data.attributes}
         case "UNSET_SELECTED_PRODUCT":
             return {...state, selectedProduct: nullProduct}
         default: 

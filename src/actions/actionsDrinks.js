@@ -1,4 +1,5 @@
 const DRINKS_URL = "https://barcaptain.herokuapp.com/drinks"
+const api = process.env.REACT_APP_API
 
 export const getDrinks = () => {
     return dispatch => {

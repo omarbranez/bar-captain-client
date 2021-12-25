@@ -6,21 +6,22 @@ import { setSelectedProduct, unsetSelectedProduct } from '../actions/actionsProd
 const ProductShow = (props) => {
 
     const {productId} = useParams()
-    
     useEffect(()=>{
-        setSelectedProduct(productId)
-        return unsetSelectedProduct
+        props.setSelectedProduct(productId)
+        return props.unsetSelectedProduct
     }, [setSelectedProduct, productId, unsetSelectedProduct])
+
+    console.log(props.selectedProduct)
 
     return (
         <div>
-            <h2>{props.selectedReport.name}</h2>
+            <h2>{props.selectedProduct ? props.selectedProduct.name : "LOADING"}</h2>
         </div>
     )
 }
 
 const mapStateToProps = (state) => ({
-    selectedReport: state.selectedReport
+    selectedProduct: state.products.selectedProduct
 })
 
 export default connect(mapStateToProps, { setSelectedProduct, unsetSelectedProduct })(ProductShow)
