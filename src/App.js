@@ -1,5 +1,5 @@
-import logo from './logo.svg';
-import './App.css';
+import logo from './logo.svg'
+import './App.css'
 import { Route, Routes, Navigate } from 'react-router-dom'
 import { connect } from 'react-redux'
 import React, { useEffect } from 'react'
@@ -10,7 +10,7 @@ function App() {
       <header className="App-header">
         <img src={logo} className="App-logo" alt="logo" />
         <p>
-          Edit <code>src/App.js</code> and save to reload.
+          Welcome to BarCaptain
         </p>
         <a
           className="App-link"
@@ -25,4 +25,4 @@ function App() {
   );
 }
 
-export default App;
+export default App
