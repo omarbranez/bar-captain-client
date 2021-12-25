@@ -1,26 +1,18 @@
 import logo from './logo.svg'
 import './App.css'
+import React, { useEffect } from 'react'
 import { Route, Routes, Navigate } from 'react-router-dom'
 import { connect } from 'react-redux'
-import React, { useEffect } from 'react'
+import ProductIndex from './containers/ProductIndex'
+import ProductShow from './components/productShow'
 
 function App() {
   return (
     <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Welcome to BarCaptain. OR NOT?
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
-      </header>
+      <Routes>
+        <Route path='/products' element={<ProductIndex/>}/>
+        <Route path='/products/:productId' element={<ProductShow/>}/>
+      </Routes>
     </div>
   );
 }

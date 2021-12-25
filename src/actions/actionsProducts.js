@@ -11,3 +11,17 @@ export const getProducts = () => {
     }
 }
 
+export const setSelectedProduct = (id) => {
+    return dispatch => {
+        fetch(PRODUCTS_URL + `/${id}`)
+        .then(res => res.json())
+        .then(product => dispatch({
+            type: "SET_SELECTED_PRODUCT",
+            payload: product
+        }))
+    }
+}
+
+export const unsetSelectedProduct = () => ({
+    type: "UNSET_SELECTED_PRODUCT"
+})
