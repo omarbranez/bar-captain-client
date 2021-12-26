@@ -5,11 +5,13 @@ import { Route, Routes, Navigate } from 'react-router-dom'
 import { connect } from 'react-redux'
 import ProductIndex from './containers/ProductIndex'
 import ProductShow from './components/productShow'
+import UserLogin from './components/userLogin'
 
 function App() {
   return (
     <div className="App">
       <Routes>
+        <Route path='/login' element={<UserLogin/>}/>
         <Route path='/products' element={<ProductIndex/>}/>
         <Route path='/products/:productId' element={<ProductShow/>}/>
       </Routes>

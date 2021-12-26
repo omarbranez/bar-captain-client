@@ -1,9 +1,9 @@
-const DRINKS_URL = "https://barcaptain.herokuapp.com/drinks"
+// const DRINKS_URL = "https://barcaptain.herokuapp.com/drinks"
 const api = process.env.REACT_APP_API
 
 export const getDrinks = () => {
     return dispatch => {
-        fetch(DRINKS_URL)
+        fetch(api + '/drinks')
         .then(res => res.json())
         .then(drinks => dispatch({
             type: "ADD_DRINKS",
@@ -14,7 +14,7 @@ export const getDrinks = () => {
 
 export const setDrink = (id) => {
     return dispatch => {
-        fetch(DRINKS_URL + `/${id}`)
+        fetch(api + `/drinks/${id}`)
         .then(res => res.json())
         .then(drink => dispatch({
             type: "SET_SELECTED_DRINK",
