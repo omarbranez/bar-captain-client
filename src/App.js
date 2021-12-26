@@ -8,6 +8,7 @@ import ProductShow from './components/productShow'
 import DrinkIndex from './containers/DrinkIndex'
 import DrinkShow from './components/drinkShow'
 import UserLogin from './components/userLogin'
+import UserRegister from './components/userRegister'
 
 
 function App() {
@@ -15,6 +16,7 @@ function App() {
     <div className="App">
       <Routes>
         <Route path='/login' element={<UserLogin/>}/>
+        <Route path='/register' element={<UserRegister/>}/>
         <Route path='/products' element={<ProductIndex/>}/>
         <Route path='/products/:productId' element={<ProductShow/>}/>
         <Route path='/drinks' element={<DrinkIndex/>}/>
