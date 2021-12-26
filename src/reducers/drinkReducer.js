@@ -17,9 +17,10 @@ const initialState = {
 const drinkReducer = (state=initialState, action) => {
     switch(action.type){
         case "ADD_DRINKS":
-            return {...state, drinks: action.payload}
+            const drinkList = action.payload.data.map(drink => drink.attributes)
+            return {...state, drinks: drinkList}
         case "SET_SELECTED_DRINK":
-            return {...state, selectedDrink: action.payload}
+            return {...state, selectedDrink: action.payload.data.attributes}
         case "UNSET_SELECTED_DRINK":
             return {...state, selectedDrink: nullDrink}
         default: 

@@ -12,7 +12,7 @@ export const getDrinks = () => {
     }
 }
 
-export const setDrink = (id) => {
+export const setSelectedDrink = (id) => {
     return dispatch => {
         fetch(api + `/drinks/${id}`)
         .then(res => res.json())
@@ -23,6 +23,6 @@ export const setDrink = (id) => {
     }
 }
 
-export const unsetDrink = () => ({
+export const unsetSelectedDrink = () => ({
     type: "UNSET_SELECTED_DRINK"
 })

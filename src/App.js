@@ -5,7 +5,10 @@ import { Route, Routes, Navigate } from 'react-router-dom'
 import { connect } from 'react-redux'
 import ProductIndex from './containers/ProductIndex'
 import ProductShow from './components/productShow'
+import DrinkIndex from './containers/DrinkIndex'
+import DrinkShow from './components/drinkShow'
 import UserLogin from './components/userLogin'
+
 
 function App() {
   return (
@@ -14,6 +17,8 @@ function App() {
         <Route path='/login' element={<UserLogin/>}/>
         <Route path='/products' element={<ProductIndex/>}/>
         <Route path='/products/:productId' element={<ProductShow/>}/>
+        <Route path='/drinks' element={<DrinkIndex/>}/>
+        <Route path='/drinks/:drinkId' element={<DrinkShow/>}/>
       </Routes>
     </div>
   );
