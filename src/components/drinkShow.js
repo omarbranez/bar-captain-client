@@ -1,27 +1,34 @@
 import React, {useEffect} from 'react'
 import {connect} from 'react-redux'
-import { useParams } from 'react-router-dom'
+import { useParams, Link } from 'react-router-dom'
 import { setSelectedDrink, unsetSelectedDrink } from '../actions/actionsDrinks'
 
-const DrinkShow = (props) => {
+const DrinkShow = ({setSelectedDrink, unsetSelectedDrink, id, name, drinkType, glassType, instructions}) => {
 
     const {drinkId} = useParams()
     useEffect(()=>{
-        props.setSelectedDrink(drinkId)
-        return props.unsetSelectedDrink
+        setSelectedDrink(drinkId)
+        return unsetSelectedDrink
     }, [setSelectedDrink, drinkId, unsetSelectedDrink])
 
-    // console.log(props.selectedDrink)
-
-    return (
+    const loadedDrink = () => 
+    <div>
         <div>
-            <h2>{props.selectedDrink ? props.selectedDrink.name : "LOADING"}</h2>
+            <h2>{name}</h2>
+            <p>{drinkType}</p>
+            <p>{glassType}</p>
+            <p>{instructions}</p>
         </div>
-    )
+        <Link to={'/drinks'}>
+            <p>Back To Drink List</p>
+        </Link>
+    </div>
+
+return id ? loadedDrink() : <h2>Loading...</h2>
 }
 
 const mapStateToProps = (state) => ({
-    selectedDrink: state.drinks.selectedDrink
+    ...state.drinks.selectedDrink
 })
 
 export default connect(mapStateToProps, { setSelectedDrink, unsetSelectedDrink })(DrinkShow)

@@ -1,5 +1,6 @@
 import React, { useEffect, useRef } from 'react'
 import { connect, useDispatch } from 'react-redux'
+import { Link } from 'react-router-dom'
 import { getDrinks } from '.././actions/actionsDrinks'
 
 const DrinkIndex = (props) => {
@@ -12,7 +13,10 @@ const DrinkIndex = (props) => {
 
     return(
         <div>
-            {props.drinks.map(drink => <h1>{drink.name}</h1>)}
+            {props.drinks.map(drink => 
+            <Link to={`/drinks/${drink.id}`}>
+            <h1>{drink.name}</h1>
+            </Link>)}
         </div>
     )
 }

@@ -24,6 +24,14 @@ export const loginUser = (form, navigate) => {
     .then(navigate('/products', {replace: true}))
 }
 
+export const logoutUser = (navigate) => {
+    return dispatch => {
+        localStorage.clear("token")
+        dispatch({type: "LOGOUT"})
+        navigate('/login', {replace: true})
+    }
+}
+
 const handleUserResponse = (res, dispatch) => {
     if (res.ok) {
       res.json()
