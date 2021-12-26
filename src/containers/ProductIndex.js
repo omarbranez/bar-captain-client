@@ -15,7 +15,8 @@ const ProductIndex = (props) => {
         <div>
             {props.products.map(product => 
             <Link to={`/products/${product.id}`}>
-                <h1>{product.name}</h1>
+                <span>{product.name}</span>
+                <br/>
             </Link>)}
         </div>
     )

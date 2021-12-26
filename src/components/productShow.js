@@ -3,7 +3,7 @@ import {connect} from 'react-redux'
 import { useParams, Link } from 'react-router-dom'
 import { setSelectedProduct, unsetSelectedProduct } from '../actions/actionsProducts'
 
-const ProductShow = ({setSelectedProduct, unsetSelectedProduct, id, name, category, subcategory, description}) => {
+const ProductShow = ({setSelectedProduct, unsetSelectedProduct, id, name, category, subcategory, description, drinks}) => {
 
     const {productId} = useParams()
 
@@ -11,8 +11,14 @@ const ProductShow = ({setSelectedProduct, unsetSelectedProduct, id, name, catego
         setSelectedProduct(productId)
         return unsetSelectedProduct
     }, [setSelectedProduct, productId, unsetSelectedProduct])
+    console.log(drinks.map(drink => drink.name))
 
-    // console.log(props.selectedProduct)
+    const productDrinks = () => 
+        <div>
+            <p>{name} can be used to make the following cocktails:</p>
+            {drinks.map(drink => <ul>{drink.name}</ul>)}
+        </div>
+
     const loadedProduct = () => 
         <div>
             <div>
@@ -20,18 +26,17 @@ const ProductShow = ({setSelectedProduct, unsetSelectedProduct, id, name, catego
                 <p>{category}</p>
                 <p>{subcategory}</p>
                 <p>{description}</p>
+                {productDrinks()}
             </div>
             <Link to={'/products'}>
-                <p>Back To Product List</p>
+                <span>Back To Product List</span>
             </Link>
-        {/* // <div> */}
         </div>
     
     return id ? loadedProduct() : <h2>Loading...</h2>
 }
 
 const mapStateToProps = (state) => ({
-    // selectedProduct: 
     ...state.products.selectedProduct
 })
 

@@ -15,7 +15,8 @@ const DrinkIndex = (props) => {
         <div>
             {props.drinks.map(drink => 
             <Link to={`/drinks/${drink.id}`}>
-            <h1>{drink.name}</h1>
+                <span>{drink.name}</span>
+                <br/>
             </Link>)}
         </div>
     )
