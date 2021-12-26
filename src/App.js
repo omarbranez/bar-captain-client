@@ -1,8 +1,8 @@
-import logo from './logo.svg'
 import './App.css'
 import React, { useEffect } from 'react'
 import { Route, Routes, Navigate } from 'react-router-dom'
 import { connect } from 'react-redux'
+import { autoLoginUser } from './actions/actionsUser'
 import ProductIndex from './containers/ProductIndex'
 import ProductShow from './components/productShow'
 import DrinkIndex from './containers/DrinkIndex'
@@ -11,7 +11,10 @@ import UserLogin from './components/userLogin'
 import UserRegister from './components/userRegister'
 
 
-function App() {
+function App({autoLoginUser}) {
+
+  useEffect(() => localStorage.token && autoLoginUser(), [autoLoginUser])
+
   return (
     <div className="App">
       <Routes>
@@ -26,4 +29,8 @@ function App() {
   );
 }
 
-export default App
+const mapStateToProps = (state) => ({
+  user: state.user.user
+})
+
+export default connect(mapStateToProps, {autoLoginUser})(App)

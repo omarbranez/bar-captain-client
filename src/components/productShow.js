@@ -2,8 +2,21 @@ import React, {useEffect} from 'react'
 import {connect} from 'react-redux'
 import { useParams, Link } from 'react-router-dom'
 import { setSelectedProduct, unsetSelectedProduct } from '../actions/actionsProducts'
+import { addProductToInventory, removeProductFromInventory } from '../actions/actionsUser'
 
-const ProductShow = ({setSelectedProduct, unsetSelectedProduct, id, name, category, subcategory, description, drinks}) => {
+const ProductShow = ({
+    setSelectedProduct, 
+    unsetSelectedProduct,
+    addProductToInventory,
+    removeProductFromInventory, 
+    userProducts,
+    userDrinks,
+    id, 
+    name, 
+    category, 
+    subcategory, 
+    description, 
+    drinks}) => {
 
     const {productId} = useParams()
 
@@ -11,7 +24,6 @@ const ProductShow = ({setSelectedProduct, unsetSelectedProduct, id, name, catego
         setSelectedProduct(productId)
         return unsetSelectedProduct
     }, [setSelectedProduct, productId, unsetSelectedProduct])
-    console.log(drinks.map(drink => drink.name))
 
     const productDrinks = () => 
         <div>
@@ -37,7 +49,8 @@ const ProductShow = ({setSelectedProduct, unsetSelectedProduct, id, name, catego
 }
 
 const mapStateToProps = (state) => ({
-    ...state.products.selectedProduct
+    ...state.products.selectedProduct,
+    user: state.user.user
 })
 
-export default connect(mapStateToProps, { setSelectedProduct, unsetSelectedProduct })(ProductShow)
+export default connect(mapStateToProps, { setSelectedProduct, unsetSelectedProduct, addProductToInventory, removeProductFromInventory })(ProductShow)
