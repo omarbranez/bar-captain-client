@@ -8,8 +8,8 @@ export const createUser = (form, navigate) => {
         },
         body: JSON.stringify(form),
     })
-    .then(res => handleUserResponse(res, dispatch))
-    .then(navigate('/products', {replace: true}))
+    .then(res => handleUserResponse(res, dispatch, navigate))
+    // .then(navigate('/login/success', {replace: true}))
 }
 
 export const loginUser = (form, navigate) => {
@@ -20,8 +20,8 @@ export const loginUser = (form, navigate) => {
         },
         body: JSON.stringify(form)
     })
-    .then(res => handleUserResponse(res, dispatch))
-    .then(navigate('/products', {replace: true}))
+    .then(res => handleUserResponse(res, dispatch, navigate))
+    // .then(navigate('/login/success', {replace: true}))
 }
 
 export const autoLoginUser = () => {
@@ -33,9 +33,20 @@ export const autoLoginUser = () => {
     .then(res => handleUserResponse(res, dispatch))
 }
 
+export const getUser = (id) => {
+    return dispatch => fetch(api + `/users/${id}`)
+    .then(res => res.json())
+    .then(user => dispatch({
+        type: "GET_USER",
+        payload: user
+    }))
+}
+
+export const unsetUser = () => ({type: "UNSET_USER_SHOW"})
+
 export const addProductToInventory = (productId) => {
     // console.log(productId)
-    return dispatch => fetch(api + `/addproduct`, {
+    return dispatch => fetch(api + "/addproduct", {
         method: 'POST',
         headers: {
             'Content-Type': 'application/json',
@@ -48,14 +59,10 @@ export const addProductToInventory = (productId) => {
         type: "UPDATE_USER_PRODUCTS_AND_DRINKS",
         payload: user
     }))
-    // .then(user => dispatch({
-    //     type: "UPDATE_USER_DRINKS",
-    //     payload: user
-    // }))
 }
 
 export const removeProductFromInventory = (productId) => {
-    return dispatch => fetch(api + `/deleteproduct`, {
+    return dispatch => fetch(api + "/deleteproduct", {
         method: 'POST',
         headers: {
             'Content-Type': 'application/json',
@@ -68,10 +75,6 @@ export const removeProductFromInventory = (productId) => {
         type: "UPDATE_USER_PRODUCTS_AND_DRINKS",
         payload: user
     }))
-    // .then(user => dispatch({
-    //     type: "UPDATE_USER_DRINKS",
-    //     payload: user
-    // }))
 }
 
 export const logoutUser = (navigate) => {
@@ -82,13 +85,13 @@ export const logoutUser = (navigate) => {
     }
 }
 
-const handleUserResponse = (res, dispatch) => {
+const handleUserResponse = (res, dispatch, navigate) => {
     if (res.ok) {
       res.json()
       .then(response => {
-          console.log(response)
         localStorage.token = response.token
         dispatch({type: "SET_USER", payload: response.user})
+        navigate(`/users/${response.user.data.attributes.id}`)
       })
     } else {
       res.json()

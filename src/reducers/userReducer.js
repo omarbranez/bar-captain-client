@@ -3,6 +3,12 @@ const initialState = {
     username: '',
     userProducts: [],
     userDrinks: [],
+    selectedUser: {
+        id: null,
+        username: '',
+        userProducts: [],
+        userDrinks: [],
+    }
 }
 
 const userReducer = (state=initialState, action) => {
@@ -11,6 +17,10 @@ const userReducer = (state=initialState, action) => {
             return {...state, id: action.payload.data.attributes.id, username: action.payload.data.attributes.username, userProducts: action.payload.data.attributes.products, userDrinks: action.payload.data.attributes.drinks}
         case "UPDATE_USER_PRODUCTS_AND_DRINKS":
             return {...state, userProducts: [...action.payload.user.data.attributes.products], userDrinks: [...action.payload.user.data.attributes.drinks]}
+        case "GET_USER":
+            return {...state, selectedUser: {id: action.payload.data.attributes.id, username: action.payload.data.attributes.username, userProducts: action.payload.data.attributes.products, userDrinks: action.payload.data.attributes.drinks}}
+        case "UNSET_USER_SHOW":
+            return {...state, selectedUser: null}
         case "LOGOUT":
             return {initialState}
         default:
