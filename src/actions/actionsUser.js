@@ -45,7 +45,7 @@ export const addProductToInventory = (productId) => {
     })
     .then(res => res.json())
     .then(user => dispatch({
-        type: "UPDATE_USER_PRODUCTS",
+        type: "UPDATE_USER_PRODUCTS_AND_DRINKS",
         payload: user
     }))
     // .then(user => dispatch({
@@ -65,7 +65,7 @@ export const removeProductFromInventory = (productId) => {
     })
     .then(res => res.json())
     .then(user => dispatch({
-        type: "UPDATE_USER_PRODUCTS",
+        type: "UPDATE_USER_PRODUCTS_AND_DRINKS",
         payload: user
     }))
     // .then(user => dispatch({
