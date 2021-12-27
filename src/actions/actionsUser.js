@@ -34,7 +34,8 @@ export const autoLoginUser = () => {
 }
 
 export const addProductToInventory = (productId) => {
-    return dispatch => fetch(api + `/userproducts`, {
+    // console.log(productId)
+    return dispatch => fetch(api + `/addproduct`, {
         method: 'POST',
         headers: {
             'Content-Type': 'application/json',
@@ -47,15 +48,15 @@ export const addProductToInventory = (productId) => {
         type: "UPDATE_USER_PRODUCTS",
         payload: user
     }))
-    .then(user => dispatch({
-        type: "UPDATE_USER_DRINKS",
-        payload: user
-    }))
+    // .then(user => dispatch({
+    //     type: "UPDATE_USER_DRINKS",
+    //     payload: user
+    // }))
 }
 
 export const removeProductFromInventory = (productId) => {
-    return dispatch => fetch(api + `/userproducts`, {
-        method: 'PATCH',
+    return dispatch => fetch(api + `/deleteproduct`, {
+        method: 'POST',
         headers: {
             'Content-Type': 'application/json',
             'Authorization': localStorage.token,
@@ -67,10 +68,10 @@ export const removeProductFromInventory = (productId) => {
         type: "UPDATE_USER_PRODUCTS",
         payload: user
     }))
-    .then(user => dispatch({
-        type: "UPDATE_USER_DRINKS",
-        payload: user
-    }))
+    // .then(user => dispatch({
+    //     type: "UPDATE_USER_DRINKS",
+    //     payload: user
+    // }))
 }
 
 export const logoutUser = (navigate) => {
