@@ -124,7 +124,7 @@ const Navbar = (props) => {
         <div>
             <Box sx={{ display: 'flex'}}>
                 <CssBaseline />
-                <AppBar position="static" sx={{ zIndex: (theme) => theme.zIndex.drawer + 1}} style={{background: 'linear-gradient(to left, #4682B4, #3773A5, #286496, #5591C3' }}>
+                <AppBar position="static" sx={{ zIndex: (theme) => theme.zIndex.drawer + 1}} style={{background: 'linear-gradient(to left, #673400, #834200, #964B00, #A4550A, #B5651D' }}>
                     <Toolbar>
                         <IconButton
                             size="large"
@@ -213,8 +213,6 @@ const Navbar = (props) => {
         </div>
     )
 }
-
-
 
 const mapStateToProps = (state) => ({
     user: state.user
