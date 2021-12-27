@@ -1,6 +1,6 @@
 import './App.css'
 import React, { useEffect } from 'react'
-import { Route, Routes, useNavigate } from 'react-router-dom'
+import { Route, Routes, Navigate } from 'react-router-dom'
 import { connect } from 'react-redux'
 import { autoLoginUser, logoutUser } from './actions/actionsUser'
 import ProductIndex from './containers/ProductIndex'
@@ -17,7 +17,7 @@ import Navbar from './components/navbar'
 
 function App({autoLoginUser, logoutUser}) {
 
-  const navigate = useNavigate()
+  // const navigate = useNavigate()
 
   useEffect(() => localStorage.token && autoLoginUser(), [autoLoginUser])
   
@@ -30,6 +30,7 @@ function App({autoLoginUser, logoutUser}) {
       {/* {localStorage.token && <Button variant="contained" color="primary" onClick={handleLogout}>Log Out</Button>} */}
       <Navbar/>
       <Routes>
+        <Route path='/' element={<Navigate replace to='/login' />} />
         <Route path='/login' element={<UserLogin/>}/>
         <Route path='/register' element={<UserRegister/>}/>
         <Route path='/login/success' element={<UserProfileRedirect/>}/>
