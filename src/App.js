@@ -11,8 +11,9 @@ import UserLogin from './components/userLogin'
 import UserRegister from './components/userRegister'
 import UserProfile from './components/userProfile'
 import UserProfileRedirect from './components/userProfileRedirect'
+import UserLogout from './components/userLogout'
 import Button from '@mui/material/Button'
-
+import Navbar from './components/navbar'
 
 function App({autoLoginUser, logoutUser}) {
 
@@ -20,17 +21,19 @@ function App({autoLoginUser, logoutUser}) {
 
   useEffect(() => localStorage.token && autoLoginUser(), [autoLoginUser])
   
-  const handleLogout = (e) => {
-    e.preventDefault()
-    logoutUser(navigate)
-  }
+  // const handleLogout = (e) => {
+  //   e.preventDefault()
+  //   logoutUser(navigate)
+  // }
   return (
     <div className="App">
-      <Button variant="contained" color="primary" onClick={handleLogout}>Log Out</Button>
+      {/* {localStorage.token && <Button variant="contained" color="primary" onClick={handleLogout}>Log Out</Button>} */}
+      <Navbar/>
       <Routes>
         <Route path='/login' element={<UserLogin/>}/>
         <Route path='/register' element={<UserRegister/>}/>
         <Route path='/login/success' element={<UserProfileRedirect/>}/>
+        <Route path='/logout' element={<UserLogout/>}/>
         <Route path='/users/:userId' element={<UserProfile/>}/>
         <Route path='/products' element={<ProductIndex/>}/>
         <Route path='/products/:productId' element={<ProductShow/>}/>
