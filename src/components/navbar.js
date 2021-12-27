@@ -27,8 +27,8 @@ import AddBoxIcon from '@mui/icons-material/AddBox';
 import MenuOpenIcon from '@mui/icons-material/MenuOpen';
 
 import barCaptainText from '../bar-captain-text.png'
-import barCaptainIconOpen from '../bar-captain-icon-open.png'
-import muttmapIconClosed from '../muttmap-menu-icon.png'
+import barCaptainIconOpen from '../bar-captain-open.png'
+import barCaptainIconClosed from '../barcaptain-open.png'
 
 const drawerWidth = 240
 
@@ -134,7 +134,7 @@ const Navbar = (props) => {
                             onClick={handleDrawerOpen}
                             sx={{ mr: 2, ...(open && { display: 'none' })  }}
                         >
-                            <img src={muttmapIconClosed} width="40" alt="muttmapIconClosed" ></img>
+                            <img src={barCaptainIconClosed} width="40" alt="muttmapIconClosed" ></img>
                         </IconButton>
                             <img src={barCaptainText} height="45" style={{display: 'block', marginLeft: 'auto', marginRight: '500'}}></img> 
                     </Toolbar>
