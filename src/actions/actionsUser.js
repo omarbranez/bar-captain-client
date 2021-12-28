@@ -9,7 +9,6 @@ export const createUser = (form, navigate) => {
         body: JSON.stringify(form),
     })
     .then(res => handleUserResponse(res, dispatch, navigate))
-    // .then(navigate('/login/success', {replace: true}))
 }
 
 export const loginUser = (form, navigate) => {
@@ -21,7 +20,6 @@ export const loginUser = (form, navigate) => {
         body: JSON.stringify(form)
     })
     .then(res => handleUserResponse(res, dispatch, navigate))
-    // .then(navigate('/login/success', {replace: true}))
 }
 
 export const autoLoginUser = () => {
@@ -42,10 +40,30 @@ export const getUser = (id) => {
     }))
 }
 
+export const showSnackbar = (variant, message) => {
+    console.log(variant)
+    return dispatch => {
+        dispatch({ type: "SNACKBAR_SHOW", payload: {variant, message}})
+    }
+}
+
+export const clearSnackbar = () => {
+    return dispatch => {
+        dispatch({ type: "SNACKBAR_CLEAR" })
+    }
+}
+
 export const unsetUser = () => ({type: "UNSET_USER_SHOW"})
 
+export const updateInventory = (data, dispatch) => {
+    dispatch({
+        type: "UPDATE_USER_PRODUCTS_AND_DRINKS",
+        payload: data
+    })
+    dispatch(showSnackbar(data.variant, data.message))
+}
+
 export const addProductToInventory = (productId) => {
-    // console.log(productId)
     return dispatch => fetch(api + "/addproduct", {
         method: 'POST',
         headers: {
@@ -55,10 +73,7 @@ export const addProductToInventory = (productId) => {
         body: JSON.stringify({product_id: productId})
     })
     .then(res => res.json())
-    .then(user => dispatch({
-        type: "UPDATE_USER_PRODUCTS_AND_DRINKS",
-        payload: user
-    }))
+    .then(res => updateInventory(res, dispatch))
 }
 
 export const removeProductFromInventory = (productId) => {
@@ -71,10 +86,7 @@ export const removeProductFromInventory = (productId) => {
         body: JSON.stringify({product_id: productId})
     })
     .then(res => res.json())
-    .then(user => dispatch({
-        type: "UPDATE_USER_PRODUCTS_AND_DRINKS",
-        payload: user
-    }))
+    .then(res => updateInventory(res, dispatch))
 }
 
 export const logoutUser = (navigate) => {

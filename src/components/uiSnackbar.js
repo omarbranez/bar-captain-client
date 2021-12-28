@@ -1,41 +1,38 @@
 import { useState, useEffect } from 'react'
-import { connect } from 'react-redux'
-import { clearSnackbar } from '../actions/actionsMessages'
+import { useDispatch, useSelector } from 'react-redux'
+import { clearSnackbar } from '../actions/actionsUser'
 import Snackbar from '@mui/material/Snackbar'
 import Alert from '@mui/material/Alert'
 
-const UISnackbar = ({message, clearSnackbar}) => {
+const UISnackbar = () => {
 
+    const dispatch = useDispatch()
     const [open, setOpen] = useState(false)
-    const [type, setType] = useState('')
 
-    useEffect(()=>{
-        setType(message.type)
-    }, [message])
+    const { snackBarOpen, snackBarType, snackBarMessage } = useSelector(state => state.message)
 
-    const handleClose = (event, reason) => {
-        if (reason === 'clickaway') {
-          return
-        }
-        setOpen(false)
-        clearSnackbar()
+    const handleClose = () => {
+        dispatch(clearSnackbar())
     }
+    useEffect(()=>{
+        setOpen(snackBarOpen)
+    }, [snackBarOpen])
 
     return(
         <Snackbar
+            anchorOrigin={{
+            vertical: "bottom",
+            horizontal: "left"
+            }}
             open={open}
             autoHideDuration={3000}
             onClose={handleClose}
-        >
-            <Alert onClose={handleClose} severity={type} sx={{ width: '100%'}}>
-                {message.message}
+            >
+            <Alert onClose={handleClose} severity={snackBarType} sx={{ width: '100%'}}>
+                {snackBarMessage}
             </Alert>
         </Snackbar>
     )
 }
 
-const mapStateToProps = (state) => ({
-    message: state.message
-})
-
-export default connect(mapStateToProps, { clearSnackbar })(UISnackbar)
+export default UISnackbar
