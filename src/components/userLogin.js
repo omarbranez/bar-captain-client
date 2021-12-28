@@ -87,7 +87,7 @@ const UserLogin = ({loginUser}) => {
             </FormControl>
             <br/>
             <Button variant="contained" onClick={handleSubmit}>Log In</Button>
-            <Link to={'/signup'}>
+            <Link to={'/register'}>
                 <p>Need to Register? <Button variant="contained">Sign Up</Button></p>
             </Link>
         </Box>

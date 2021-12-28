@@ -11,8 +11,6 @@ const ProductShow = ({
     addProductToInventory,
     removeProductFromInventory, 
     user,
-    // userProducts,
-    // userDrinks,
     id, 
     name, 
     category, 

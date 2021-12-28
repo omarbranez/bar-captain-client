@@ -73,15 +73,15 @@ const Navbar = (props) => {
             icon: <LiquorIcon/>
         },
         {
-            path: "products/new",
+            path: `users/${user.id}/addproduct`,
             text: "Add Product to Inventory",
             icon: <AddBoxIcon/>
         },
-        // {
-        //     path: "drinks/new",
-        //     text: "Create New Report",
-        //     icon: <AddBoxOutlinedIcon/>
-        // }
+        {
+            path: "drinks/new",
+            text: "Submit New Drink Recipe",
+            icon: <AddBoxOutlinedIcon/>
+        }
     ]
 
     const loggedInRoutesAndIcons = [
@@ -104,7 +104,7 @@ const Navbar = (props) => {
             icon: <LoginIcon/>
         },
         {
-            path: '/signup',
+            path: '/register',
             text: "Create New Account",
             icon: <FiberNewOutlinedIcon/>
         }
