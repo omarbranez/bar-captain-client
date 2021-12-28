@@ -15,6 +15,7 @@ import UserAddProduct from './components/userAddProduct'
 import UserLogout from './components/userLogout'
 import Button from '@mui/material/Button'
 import Navbar from './components/navbar'
+import UISnackbar from './components/uiSnackbar'
 
 function App({autoLoginUser, logoutUser}) {
 
@@ -23,6 +24,7 @@ function App({autoLoginUser, logoutUser}) {
   return (
     <div className="App">
       <Navbar/>
+      <UISnackbar/>
       <Routes>
         <Route path='/' element={<Navigate replace to='/login' />} />
         <Route path='/login' element={<UserLogin/>}/>

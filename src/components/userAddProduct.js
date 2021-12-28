@@ -15,6 +15,7 @@ import Stepper from '@mui/material/Stepper'
 import Step from '@mui/material/Step'
 import StepLabel from '@mui/material/StepLabel'
 
+
 const UserAddProduct = ({products, addProductToInventory, getProducts}) => {
 
     const {userId} = useParams()
@@ -26,7 +27,7 @@ const UserAddProduct = ({products, addProductToInventory, getProducts}) => {
     const [productId, setProductId] = useState(null)
 
     const [activeStep, setActiveStep] = useState(0)
-    const steps = ['Category','Subcategory','Name', ]
+    const steps = ['Category','Subcategory','Name' ]
     const stateArray = [category, subcategory, name]
     
     useEffect(()=>{
