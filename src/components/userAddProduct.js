@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from 'react'
 import { connect, useDispatch } from 'react-redux'
-import { useParams } from 'react-router-dom'
+import { useParams, useNavigate } from 'react-router-dom'
 import { addProductToInventory } from '../actions/actionsUser'
 import { getProducts } from '../actions/actionsProducts'
 import Box from '@mui/material/Box'
@@ -17,6 +17,8 @@ import StepLabel from '@mui/material/StepLabel'
 
 
 const UserAddProduct = ({products, addProductToInventory, getProducts}) => {
+
+    const navigate = useNavigate()
 
     const {userId} = useParams()
     const dispatch = useDispatch()
@@ -49,10 +51,12 @@ const UserAddProduct = ({products, addProductToInventory, getProducts}) => {
 
     const handleSubmit = (e) => {
         e.preventDefault()
-        addProductToInventory(productId)
+        console.log(navigate)
+        addProductToInventory(productId, navigate, userId)
+        // navigate(`/users/${userId}`)
     }
 
-    const prodCategories = [...new Set(products.map(prod => prod.category))].sort() // make the backend do this
+    const prodCategories = [...new Set(products.map(prod => prod.category))].sort() // make the backend do this // but with three fetches?
     const prodSubcategories = [...new Set(products.filter(product => product.category === category).map(prod => prod.subcategory))].sort()
     // const prodNames = [...new Set(products.filter(product => product.subcategory === subcategory).map(prod => prod.name))].sort()
     const prodNames = [...new Set(products.filter(product => product.subcategory === subcategory))].sort((a,b) => (a.name > b.name) ? 1 : -1)
