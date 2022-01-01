@@ -20,6 +20,7 @@ import AddBoxOutlinedIcon from '@mui/icons-material/AddBoxOutlined'
 import AccountBoxOutlinedIcon from '@mui/icons-material/AccountBoxOutlined'
 import ExitToAppOutlinedIcon from '@mui/icons-material/ExitToAppOutlined'
 import FiberNewOutlinedIcon from '@mui/icons-material/FiberNewOutlined'
+import ClickAwayListener from '@mui/material/ClickAwayListener'
 
 import LocalBarIcon from '@mui/icons-material/LocalBar'
 import LiquorIcon from '@mui/icons-material/Liquor'
@@ -113,17 +114,22 @@ const Navbar = (props) => {
     const [open, setOpen] = useState(false)
   
     const handleDrawerOpen = () => {
-      setOpen(true)
+        setOpen(true)
     }
   
     const handleDrawerClose = () => {
-      setOpen(false)
+        setOpen(false)
+    }
+
+    const handleClickAway = () => {
+        setOpen(false)
     }
   
     return (
         <div>
             <Box sx={{ display: 'flex'}}>
                 <CssBaseline />
+                        <ClickAwayListener onClickAway={handleClickAway}>
                 <AppBar position="static" sx={{ zIndex: (theme) => theme.zIndex.drawer + 1}} style={{background: 'linear-gradient(to left, #673400, #834200, #964B00, #A4550A, #B5651D' }}>
                     <Toolbar>
                         <IconButton
@@ -139,32 +145,33 @@ const Navbar = (props) => {
                             <img src={barCaptainText} height="45" style={{display: 'block', marginLeft: 'auto', marginRight: '500'}}></img> 
                     </Toolbar>
                 </AppBar>
+                    </ClickAwayListener>
                 <Drawer
-        sx={{
-          width: drawerWidth,
-          flexShrink: 0,
-          '& .MuiDrawer-paper': {
-            width: drawerWidth,
-            boxSizing: 'border-box',
-          },
-        }}
-        variant="temporary"
-        anchor="left"
-        open={open}
-      >
+                    sx={{
+                        width: drawerWidth,
+                        flexShrink: 0,
+                        '& .MuiDrawer-paper': {
+                            width: drawerWidth,
+                            boxSizing: 'border-box',
+                        },
+                    }}
+                    variant="temporary"
+                    anchor="left"
+                    open={open}
+                >
             {/* this is covered by the app bar */}
-        <DrawerHeader>
-          <IconButton onClick={handleDrawerClose}> 
-            <img src={barCaptainIconOpen} width="50" ></img>
-          </IconButton>
-        </DrawerHeader>
+                    <DrawerHeader>
+                        <IconButton onClick={handleDrawerClose}> 
+                            <img src={barCaptainIconOpen} width="50" ></img>
+                        </IconButton>
+                    </DrawerHeader>
           {/* this is covered by the app bar */}
-        <DrawerHeader>
-          <IconButton onClick={handleDrawerClose}> 
-            <img src={barCaptainIconOpen} width="50" ></img>
-          </IconButton>
-        </DrawerHeader>
-        <Divider />
+                    <DrawerHeader>
+                        <IconButton onClick={handleDrawerClose}> 
+                            <img src={barCaptainIconOpen} width="50" ></img>
+                        </IconButton>
+                    </DrawerHeader>
+                    <Divider />
         {user.username ? 
         <List>
             {linkRoutesAndIcons.map((route) => (
