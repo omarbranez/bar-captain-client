@@ -106,7 +106,7 @@ const UserAddProduct = ({products, addProductToInventory, getProducts}) => {
                         </FormControl>
                     </div>
                 )}
-                {activeStep === 3 && (
+                {/* {activeStep === 3 && (
                     <div>
                         <Button 
                             disabled={!name}
@@ -116,7 +116,7 @@ const UserAddProduct = ({products, addProductToInventory, getProducts}) => {
                             >{name && `Add ${name} to Inventory`}
                         </Button>
                     </div>
-                )}
+                )} */}
             </div>
             <Button
                 color="error"
@@ -129,9 +129,9 @@ const UserAddProduct = ({products, addProductToInventory, getProducts}) => {
             <Button
                 color="success"
                 variant="contained" 
-                onClick={handleNext}
+                onClick={name !== '' ? handleSubmit : handleNext}
                 disabled={!stateArray[activeStep] || !category}>
-                {activeStep === steps.length - 1 ? 'Finish' : 'Next'}
+                {name && activeStep === steps.length - 1 ? `Add ${name} to Inventory` : 'Next'}
             </Button>
         </div>
     )
