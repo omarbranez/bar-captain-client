@@ -7,6 +7,7 @@ import Box from '@mui/material/Box'
 import Paper from '@mui/material/Paper'
 import Grid from '@mui/material/Grid'
 import Select from '@mui/material/Select'
+import MenuItem from '@mui/material/MenuItem'
 import ToggleButton from '@mui/material/ToggleButton'
 import ToggleButtonGroup from '@mui/material/ToggleButtonGroup'
 
@@ -25,9 +26,26 @@ const ProductIndex = ({products}) => {
     const [alignment, setAlignment] = useState('left')
 
     const handleAlignment = (event, newAlignment) => {
-      setAlignment(newAlignment);
+        if (newAlignment !== null) {
+            setAlignment(newAlignment)
+          }
     }
-  
+
+    const handleReset = (e) => {
+        setCategoryFilter('')
+        setSubcategoryFilter('')
+    }
+
+    const handleSelectAlcoholic = (e) => {
+        setCategoryFilter('Liquor')
+        setSubcategoryFilter('')
+    }
+
+    const handleSelectNonAlcoholic = (e) => {
+        setCategoryFilter('Mixer')
+        setSubcategoryFilter('')
+    }  
+
     useEffect(()=>{
         dispatch(getProducts())
     }, [dispatch])
@@ -65,16 +83,19 @@ const ProductIndex = ({products}) => {
                 onChange={handleAlignment}
                 aria-label="text alignment"
             >      
-                <ToggleButton value="left" aria-label="left aligned" onClick={(e) => setCategoryFilter('')}>
-                    Reset
+                <ToggleButton value="left" aria-label="left aligned" onClick={(e) => handleReset(e)}>
+                    No Filter
                 </ToggleButton>
-                <ToggleButton value="center" aria-label="centered" onClick={(e) => setCategoryFilter('Liquor')}>
+                <ToggleButton value="center" aria-label="centered" onClick={(e) => handleSelectAlcoholic(e)}>
                     Alcoholic
                 </ToggleButton>
-                <ToggleButton value="right" aria-label="right aligned" onClick={(e) => setCategoryFilter('Mixer')}>
+                <ToggleButton value="right" aria-label="right aligned" onClick={(e) => handleSelectNonAlcoholic(e)}>
                     Non-Alcoholic
                 </ToggleButton>
             </ToggleButtonGroup>
+            <Select disabled={categoryFilter == ''} value={subcategoryFilter} onChange={(e)=> setSubcategoryFilter(e.target.value)}>
+                {prodSubcategories.map(subcat => <MenuItem value={subcat}>{subcat}</MenuItem>)}
+            </Select>
             <Box sx={{ flexGrow: 1 }}>
                 <Grid container spacing={{ xs: 2, md: 3 }} columns={{ xs: 4, sm: 8, md: 12 }}>
                     {subcatFilteredProducts(products).map((product, index) => (
