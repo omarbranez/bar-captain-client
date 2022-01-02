@@ -6,8 +6,10 @@ import { experimentalStyled as styled } from '@mui/material/styles'
 import Box from '@mui/material/Box'
 import Paper from '@mui/material/Paper'
 import Grid from '@mui/material/Grid'
+import FormControl from '@mui/material/FormControl'
 import Select from '@mui/material/Select'
 import MenuItem from '@mui/material/MenuItem'
+import InputLabel from '@mui/material/InputLabel'
 import ToggleButton from '@mui/material/ToggleButton'
 import ToggleButtonGroup from '@mui/material/ToggleButtonGroup'
 
@@ -71,18 +73,14 @@ const ProductIndex = ({products}) => {
 
     return(
         <div>
-            {/* {props.products.map(product => 
-            <Link to={`/products/${product.id}`}>
-                <span>{product.name}</span>
-                <br/>
-            </Link>)} */}
             <h1>List of Products</h1>
             <ToggleButtonGroup
                 value={alignment}
                 exclusive
                 onChange={handleAlignment}
                 aria-label="text alignment"
-            >      
+            >   
+            <p style={{display:'block'}}>Filter By Product Type &nbsp;</p>
                 <ToggleButton value="left" aria-label="left aligned" onClick={(e) => handleReset(e)}>
                     No Filter
                 </ToggleButton>
@@ -93,9 +91,17 @@ const ProductIndex = ({products}) => {
                     Non-Alcoholic
                 </ToggleButton>
             </ToggleButtonGroup>
-            <Select disabled={categoryFilter == ''} value={subcategoryFilter} onChange={(e)=> setSubcategoryFilter(e.target.value)}>
-                {prodSubcategories.map(subcat => <MenuItem value={subcat}>{subcat}</MenuItem>)}
-            </Select>
+            <br/>
+            {categoryFilter !== '' &&
+                <div>
+                <p style={{display:'inline-block'}}>Filter by Subcategory &nbsp;</p> 
+                <FormControl sx={{ m: 1, minWidth: 200 }}>
+                    <Select disabled={categoryFilter == ''} label="Filter by Subcategory" value={subcategoryFilter} onChange={(e)=> setSubcategoryFilter(e.target.value)}>
+                        {prodSubcategories.map(subcat => <MenuItem value={subcat}>{subcat}</MenuItem>)}
+                    </Select>
+                </FormControl>
+                </div>
+            }
             <Box sx={{ flexGrow: 1 }}>
                 <Grid container spacing={{ xs: 2, md: 3 }} columns={{ xs: 4, sm: 8, md: 12 }}>
                     {subcatFilteredProducts(products).map((product, index) => (
