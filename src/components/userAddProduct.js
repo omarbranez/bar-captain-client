@@ -143,3 +143,4 @@ const mapStateToProps = (state) => ({
 })
 
 export default connect(mapStateToProps, { addProductToInventory, getProducts })(UserAddProduct)
+
