@@ -7,6 +7,7 @@ import ProductIndex from './containers/ProductIndex'
 import ProductShow from './components/productShow'
 import DrinkIndex from './containers/DrinkIndex'
 import DrinkShow from './components/drinkShow'
+import DrinkNew from './components/drinkNew'
 import UserLogin from './components/userLogin'
 import UserRegister from './components/userRegister'
 import UserProfile from './components/userProfile'
@@ -37,6 +38,7 @@ function App({autoLoginUser, logoutUser}) {
         <Route path='/products/:productId' element={<ProductShow/>}/>
         <Route path='/drinks' element={<DrinkIndex/>}/>
         <Route path='/drinks/:drinkId' element={<DrinkShow/>}/>
+        <Route path='/drinks/new' element={<DrinkNew/>}/>
       </Routes>
     </div>
   );
