@@ -3,8 +3,6 @@ import { connect, useDispatch } from 'react-redux'
 import { Link } from 'react-router-dom'
 import { getDrinks } from '.././actions/actionsDrinks'
 import { experimentalStyled as styled } from '@mui/material/styles'
-import Box from '@mui/material/Box'
-import Paper from '@mui/material/Paper'
 import Grid from '@mui/material/Grid'
 import Card from '@mui/material/Card'
 import CardHeader from '@mui/material/CardHeader'
@@ -18,23 +16,19 @@ import Typography from '@mui/material/Typography'
 import { red } from '@mui/material/colors'
 import ExpandMoreIcon from '@mui/icons-material/ExpandMore'
 
-// const Item = styled(Paper)(({ theme }) => ({
-//     ...theme.typography.body2,
-//     padding: theme.spacing(2),
-//     textAlign: 'center',
-//     color: theme.palette.text.secondary,
-//   }))
-
-  const ExpandMore = styled((props) => {
+const ExpandMore = styled((props) => {
     const { expand, ...other } = props
     return <IconButton {...other} />
-  })(({ theme, expand }) => ({
+})
+
+(({ theme, expand }) => ({
     transform: !expand ? 'rotate(0deg)' : 'rotate(180deg)',
     marginLeft: 'auto',
     transition: theme.transitions.create('transform', {
       duration: theme.transitions.duration.shortest,
     }),
-  }))
+}))
+
 const DrinkIndex = (props) => {
 
     const dispatch = useDispatch()
@@ -61,11 +55,12 @@ const DrinkIndex = (props) => {
                         <Card sx={{ maxWidth: 345 }}>
                             <CardHeader
                                 avatar={
-                                <Avatar sx={{ bgcolor: red[500] }} aria-label="recipe">
-                                    {/* {drink[0]} */}
+                                <Avatar sx={{ bgcolor: red[500] }} aria-label="drink">
+                                    {drink.name[0]}
                                 </Avatar>
                                 }
                                 title={drink.name}
+                                subheader={drink.drink_type}
                             />
                             <CardMedia
                                 component="img"
@@ -83,11 +78,11 @@ const DrinkIndex = (props) => {
                                 </ExpandMore>
                             </CardActions>
                             <Collapse in={expandedId === i} timeout="auto" unmountOnExit>
-                                <CardContent>
+                                {/* <CardContent>
                                     <Typography variant="body2" color="text.secondary">
-                                        {drink.drinkType}
+                                        {drink.drink_type}
                                     </Typography>
-                                </CardContent>
+                                </CardContent> */}
                                 <CardContent>
                                     <Typography paragraph>
                                         Glass Type: {drink.glass_type}
