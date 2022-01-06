@@ -87,7 +87,7 @@ const DrinkIndex = (props) => {
                                     <Typography paragraph>
                                         Glass Type: {drink.glass_type}
                                     </Typography>
-                                    <Typography>
+                                    <Typography> 
                                         Ingredients:
                                         {drink.products.map(prod => <ul>{prod.name}</ul>)}
                                     </Typography>

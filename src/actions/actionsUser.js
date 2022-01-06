@@ -1,6 +1,7 @@
 const api = process.env.REACT_APP_API
 
 export const createUser = (form, navigate) => {
+    console.log(form)
     return dispatch => fetch(api + '/users', {
         method: 'POST',
         headers: {
@@ -56,14 +57,11 @@ export const clearSnackbar = () => {
 export const unsetUser = () => ({type: "UNSET_USER_SHOW"})
 
 export const updateInventory = (data, dispatch) => {
-    // console.log(navigate)
         dispatch({
             type: "UPDATE_USER_PRODUCTS_AND_DRINKS",
             payload: data
         })
         dispatch(showSnackbar(data.variant, data.message))
-        console.log(data.user.data.id)
-        // navigate(`/users/${data.user.data.id}`, {replace: true})
     }
 
 
@@ -118,6 +116,7 @@ const handleUserResponse = (res, dispatch, navigate) => {
       .then(response => {
         localStorage.token = response.token
         dispatch({type: "SET_USER", payload: response.user})
+        dispatch(showSnackbar(response.variant, response.message))
         navigate(`/users/${response.user.data.attributes.id}`)
       })
     } else {
