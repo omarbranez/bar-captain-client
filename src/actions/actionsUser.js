@@ -106,6 +106,7 @@ export const logoutUser = (navigate) => {
     return dispatch => {
         localStorage.clear("token")
         dispatch({type: "LOGOUT"})
+        dispatch(showSnackbar("success", "You have been logged out"))
         navigate('/login', {replace: true})
     }
 }
