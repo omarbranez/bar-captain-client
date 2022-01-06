@@ -112,15 +112,17 @@ export const logoutUser = (navigate) => {
 
 const handleUserResponse = (res, dispatch, navigate) => {
     if (res.ok) {
-      res.json()
-      .then(response => {
-        localStorage.token = response.token
-        dispatch({type: "SET_USER", payload: response.user})
-        dispatch(showSnackbar(response.variant, response.message))
-        navigate(`/users/${response.user.data.attributes.id}`)
-      })
+        res.json()
+        .then(response => {
+            localStorage.token = response.token
+            dispatch({type: "SET_USER", payload: response.user})
+            dispatch(showSnackbar(response.variant, response.message))
+            navigate(`/users/${response.user.data.attributes.id}`)
+        })
     } else {
-      res.json()
-      .then(res => alert(res.errors))
+        res.json()
+        .then(res => {
+            dispatch(showSnackbar("error", "Login Unsuccessful"))
+        })
     }
 }
