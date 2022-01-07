@@ -2,6 +2,7 @@ import React, { useEffect, useState } from 'react'
 import { connect, useDispatch } from 'react-redux'
 import { Link } from 'react-router-dom'
 import { getDrinks } from '.././actions/actionsDrinks'
+import DrinkModal from '../components/drinkModal'
 import { experimentalStyled as styled } from '@mui/material/styles'
 import Grid from '@mui/material/Grid'
 import Card from '@mui/material/Card'
@@ -79,11 +80,6 @@ const DrinkIndex = (props) => {
                             </CardActions>
                             <Collapse in={expandedId === i} timeout="auto" unmountOnExit>
                                 {/* <CardContent>
-                                    <Typography variant="body2" color="text.secondary">
-                                        {drink.drink_type}
-                                    </Typography>
-                                </CardContent> */}
-                                <CardContent>
                                     <Typography paragraph>
                                         Glass Type: {drink.glass_type}
                                     </Typography>
@@ -94,7 +90,8 @@ const DrinkIndex = (props) => {
                                     <Typography paragraph>
                                         {drink.instructions}
                                     </Typography>
-                                </CardContent>
+                                </CardContent> */}
+                                <DrinkModal drinkId={drink.id}/>
                             </Collapse>
                         </Card>
                     </Grid>

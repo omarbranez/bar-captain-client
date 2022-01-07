@@ -7,6 +7,7 @@ const nullDrink = {
     author: '',
     products: [],
     quantity: [],
+    ingredients: [],
 }
 
 const initialState = {
