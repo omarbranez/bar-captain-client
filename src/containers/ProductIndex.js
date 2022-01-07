@@ -2,6 +2,7 @@ import React, { useEffect, useState } from 'react'
 import { connect, useDispatch } from 'react-redux'
 import { Link } from 'react-router-dom'
 import { getProducts } from '.././actions/actionsProducts'
+import { addProductToInventory, removeProductFromInventory } from '.././actions/actionsUser'
 import ProductModal from '../components/productModal'
 import { experimentalStyled as styled } from '@mui/material/styles'
 import Box from '@mui/material/Box'
@@ -39,7 +40,7 @@ const ExpandMore = styled((props) => {
     }),
 }))
 
-const ProductIndex = ({products, userProducts}) => {
+const ProductIndex = ({products, userProducts, addProductToInventory, removeProductFromInventory}) => {
 
     const dispatch = useDispatch()
     const [categoryFilter, setCategoryFilter] = useState('')
@@ -135,7 +136,7 @@ const ProductIndex = ({products, userProducts}) => {
             }
             <Box sx={{ flexGrow: 1 }}>
                 <Grid container spacing={{ xs: 2, md: 3 }} columns={{ xs: 4, sm: 8, md: 12 }}>
-                    {subcatFilteredProducts(products).map((product, i) => (
+                    {subcatFilteredProducts(products).map((product, i) => ( // this will become its own component
                     <Grid item xs={2} sm={4} md={4} key={i}>
                         <Item>
                             {ownedProduct(product) && <CheckIcon style={{marginRight: '20px'}}/>}
@@ -151,7 +152,7 @@ const ProductIndex = ({products, userProducts}) => {
                             <Collapse in={expandedId === i} timeout="auto" unmountOnExit>
                                 <ProductModal productId={product.id}/>
                             </Collapse>
-                            {ownedProduct(product) ? <Button variant="contained" color="error">Remove</Button> : <Button variant="contained" color="success">Add</Button>}
+                            {ownedProduct(product) ? <Button variant="contained" color="error" onClick={()=>removeProductFromInventory(product.id)}>Remove</Button> : <Button variant="contained" color="success" onClick={()=>addProductToInventory(product.id)}>Add</Button>}
                         </Item>
                     </Grid>
                     ))}
@@ -166,4 +167,4 @@ const mapStateToProps = (state) => ({
     userProducts: state.user.userProducts
 })
 
-export default connect(mapStateToProps, {getProducts})(ProductIndex)
+export default connect(mapStateToProps, {getProducts, addProductToInventory, removeProductFromInventory})(ProductIndex)
