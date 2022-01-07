@@ -136,7 +136,7 @@ const ProductIndex = ({products, userProducts, addProductToInventory, removeProd
             }
             <Box sx={{ flexGrow: 1 }}>
                 <Grid container spacing={{ xs: 2, md: 3 }} columns={{ xs: 4, sm: 8, md: 12 }}>
-                    {subcatFilteredProducts(products).map((product, i) => ( // this will become its own component
+                    {subcatFilteredProducts(products.sort()).map((product, i) => ( // this will become its own component
                     <Grid item xs={2} sm={4} md={4} key={i}>
                         <Item>
                             {ownedProduct(product) && <CheckIcon style={{marginRight: '20px'}}/>}

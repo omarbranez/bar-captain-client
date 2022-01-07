@@ -16,6 +16,7 @@ import IconButton from '@mui/material/IconButton'
 import Typography from '@mui/material/Typography'
 import { red } from '@mui/material/colors'
 import ExpandMoreIcon from '@mui/icons-material/ExpandMore'
+import Button from '@mui/material/Button'
 
 const ExpandMore = styled((props) => {
     const { expand, ...other } = props
@@ -30,7 +31,7 @@ const ExpandMore = styled((props) => {
     }),
 }))
 
-const DrinkIndex = (props) => {
+const DrinkIndex = ({drinks, userDrinks}) => {
 
     const dispatch = useDispatch()
     // const [expanded, setExpanded] = useState(false)
@@ -40,18 +41,22 @@ const DrinkIndex = (props) => {
         dispatch(getDrinks())
     }, [dispatch])
 
-    // const handleExpandClick = () => {
-    //     setExpanded(!expanded)
-    //   }
-
     const handleExpandClick = (i) => {
         setExpandedId(expandedId === i ? -1 : i)
+    }
+
+    const ownedDrink = (drink) => {
+        if (userDrinks.some(d => d.id == drink.id)){
+            return true
+        } else {
+            return false
+        }
     }
     return(
         <div>
             <h1>List of Drinks</h1>
             <Grid container spacing={3}>
-                {props.drinks.map((drink, i) => 
+                {drinks.map((drink, i) => 
                     <Grid item xs={3}>
                         <Card sx={{ maxWidth: 345 }}>
                             <CardHeader
@@ -62,35 +67,24 @@ const DrinkIndex = (props) => {
                                 }
                                 title={drink.name}
                                 subheader={drink.drink_type}
-                            />
+                                />
                             <CardMedia
                                 component="img"
                                 height="194"
                                 src={drink.photo_url}
-                            />
+                                />
                             <CardActions disableSpacing>
+                                {ownedDrink(drink) && <Button variant="outlined" color="primary" disabled>In Collection</Button>}
                                 <ExpandMore
                                     expand={expandedId === i}
                                     onClick={()=>handleExpandClick(i)}
                                     aria-expanded={expandedId === i}
                                     aria-label="show more"
-                                >
+                                    >
                                     <ExpandMoreIcon />
                                 </ExpandMore>
                             </CardActions>
                             <Collapse in={expandedId === i} timeout="auto" unmountOnExit>
-                                {/* <CardContent>
-                                    <Typography paragraph>
-                                        Glass Type: {drink.glass_type}
-                                    </Typography>
-                                    <Typography> 
-                                        Ingredients:
-                                        {drink.products.map(prod => <ul>{prod.name}</ul>)}
-                                    </Typography>
-                                    <Typography paragraph>
-                                        {drink.instructions}
-                                    </Typography>
-                                </CardContent> */}
                                 <DrinkModal drinkId={drink.id}/>
                             </Collapse>
                         </Card>
@@ -103,6 +97,7 @@ const DrinkIndex = (props) => {
 
 const mapStateToProps = (state) => ({
     drinks: state.drinks.drinks,
+    userDrinks: state.user.userDrinks
 })
 
 export default connect(mapStateToProps, {getDrinks})(DrinkIndex)
