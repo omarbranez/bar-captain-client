@@ -1,5 +1,6 @@
 import { useEffect } from 'react'
 import { useDispatch, useSelector } from 'react-redux'
+import { Link } from 'react-router-dom'
 import { setSelectedDrink, unsetSelectedDrink } from '../actions/actionsDrinks'
 import CardContent from '@mui/material/CardContent'
 import Typography from '@mui/material/Typography'
@@ -22,8 +23,7 @@ const DrinkModal = ({drinkId}) => {
             </Typography>
             <Typography> 
                 Ingredients:
-                {drink.ingredients.map(ing => <ul>{ing.quantity} {ing.product.name}</ul>)}
-                {/* {drink.products.map(prod => <ul>{prod.name}</ul>)} */}
+                {drink.ingredients.map(ing => <ul>{ing.quantity} <Link to={`/products/${ing.product.id}`}>{ing.product.name}</Link></ul>)}
             </Typography>
             <Typography paragraph>
                 {drink.instructions}
