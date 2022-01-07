@@ -18,7 +18,7 @@ import ToggleButton from '@mui/material/ToggleButton'
 import ToggleButtonGroup from '@mui/material/ToggleButtonGroup'
 import Collapse from '@mui/material/Collapse'
 import Button from '@mui/material/Button'
-import CheckIcon from '@mui/icons-material/Check';
+import CheckIcon from '@mui/icons-material/Check'
 
 const Item = styled(Paper)(({ theme }) => ({
     ...theme.typography.body2,
@@ -138,7 +138,7 @@ const ProductIndex = ({products, userProducts, addProductToInventory, removeProd
                 <Grid container spacing={{ xs: 2, md: 3 }} columns={{ xs: 4, sm: 8, md: 12 }}>
                     {subcatFilteredProducts(products.sort()).map((product, i) => ( // this will become its own component
                     <Grid item xs={2} sm={4} md={4} key={i}>
-                        <Item>
+                        <Item key={product.id}>
                             {ownedProduct(product) && <CheckIcon style={{marginRight: '20px'}}/>}
                             {product.name}
                             <ExpandMore
