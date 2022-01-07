@@ -2,6 +2,7 @@ import React, { useEffect, useState } from 'react'
 import { connect, useDispatch } from 'react-redux'
 import { Link } from 'react-router-dom'
 import { getProducts } from '.././actions/actionsProducts'
+import ProductModal from '../components/productModal'
 import { experimentalStyled as styled } from '@mui/material/styles'
 import Box from '@mui/material/Box'
 import Paper from '@mui/material/Paper'
@@ -10,8 +11,11 @@ import FormControl from '@mui/material/FormControl'
 import Select from '@mui/material/Select'
 import MenuItem from '@mui/material/MenuItem'
 import InputLabel from '@mui/material/InputLabel'
+import IconButton from '@mui/material/IconButton'
+import ExpandMoreIcon from '@mui/icons-material/ExpandMore'
 import ToggleButton from '@mui/material/ToggleButton'
 import ToggleButtonGroup from '@mui/material/ToggleButtonGroup'
+import Collapse from '@mui/material/Collapse'
 
 const Item = styled(Paper)(({ theme }) => ({
     ...theme.typography.body2,
@@ -20,12 +24,30 @@ const Item = styled(Paper)(({ theme }) => ({
     color: theme.palette.text.secondary,
   }))
 
+const ExpandMore = styled((props) => {
+    const { expand, ...other } = props
+    return <IconButton {...other} />
+})
+
+(({ theme, expand }) => ({
+    transform: !expand ? 'rotate(0deg)' : 'rotate(180deg)',
+    marginLeft: 'auto',
+    transition: theme.transitions.create('transform', {
+      duration: theme.transitions.duration.shortest,
+    }),
+}))
+
 const ProductIndex = ({products}) => {
 
     const dispatch = useDispatch()
     const [categoryFilter, setCategoryFilter] = useState('')
     const [subcategoryFilter, setSubcategoryFilter] = useState('')
     const [alignment, setAlignment] = useState('left')
+
+    const [expandedId, setExpandedId] = useState(-1)
+    const handleExpandClick = (i) => {
+        setExpandedId(expandedId === i ? -1 : i)
+    }
 
     const handleAlignment = (event, newAlignment) => {
         if (newAlignment !== null) {
@@ -104,11 +126,21 @@ const ProductIndex = ({products}) => {
             }
             <Box sx={{ flexGrow: 1 }}>
                 <Grid container spacing={{ xs: 2, md: 3 }} columns={{ xs: 4, sm: 8, md: 12 }}>
-                    {subcatFilteredProducts(products).map((product, index) => (
-                    <Grid item xs={2} sm={4} md={4} key={index}>
-                        <Link to={`/products/${product.id}`}>
-                        <Item>{product.name}</Item>
-                        </Link>
+                    {subcatFilteredProducts(products).map((product, i) => (
+                    <Grid item xs={2} sm={4} md={4} key={i}>
+                        <Item>{product.name}
+                            <ExpandMore
+                                expand={expandedId === i}
+                                onClick={()=>handleExpandClick(i)}
+                                aria-expanded={expandedId === i}
+                                aria-label="show more"
+                            >
+                                <ExpandMoreIcon />
+                            </ExpandMore>
+                            <Collapse in={expandedId === i} timeout="auto" unmountOnExit>
+                                <ProductModal productId={product.id}/>
+                            </Collapse>
+                        </Item>
                     </Grid>
                     ))}
                 </Grid>
