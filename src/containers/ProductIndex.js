@@ -16,6 +16,8 @@ import ExpandMoreIcon from '@mui/icons-material/ExpandMore'
 import ToggleButton from '@mui/material/ToggleButton'
 import ToggleButtonGroup from '@mui/material/ToggleButtonGroup'
 import Collapse from '@mui/material/Collapse'
+import Button from '@mui/material/Button'
+import CheckIcon from '@mui/icons-material/Check';
 
 const Item = styled(Paper)(({ theme }) => ({
     ...theme.typography.body2,
@@ -37,7 +39,7 @@ const ExpandMore = styled((props) => {
     }),
 }))
 
-const ProductIndex = ({products}) => {
+const ProductIndex = ({products, userProducts}) => {
 
     const dispatch = useDispatch()
     const [categoryFilter, setCategoryFilter] = useState('')
@@ -74,7 +76,6 @@ const ProductIndex = ({products}) => {
         dispatch(getProducts())
     }, [dispatch])
 
-    // const productCategories = ['Alcohol'] yes/no
     const prodCategories = [...new Set(products.map(prod => prod.category))].sort()
     const prodSubcategories = [...new Set(products.filter(product => product.category === categoryFilter).map(prod => prod.subcategory))].sort()
     const catFilteredProducts = (prods) => {
@@ -90,6 +91,14 @@ const ProductIndex = ({products}) => {
             return catFilteredProducts(prods).filter(prod => prod.subcategory == subcategoryFilter)
         } else {
             return catFilteredProducts(prods)
+        }
+    }
+
+    const ownedProduct = (product) => {
+        if (userProducts.some(prod => prod.id == product.id)){
+            return true
+        } else {
+            return false
         }
     }
 
@@ -128,7 +137,9 @@ const ProductIndex = ({products}) => {
                 <Grid container spacing={{ xs: 2, md: 3 }} columns={{ xs: 4, sm: 8, md: 12 }}>
                     {subcatFilteredProducts(products).map((product, i) => (
                     <Grid item xs={2} sm={4} md={4} key={i}>
-                        <Item>{product.name}
+                        <Item>
+                            {ownedProduct(product) && <CheckIcon style={{marginRight: '20px'}}/>}
+                            {product.name}
                             <ExpandMore
                                 expand={expandedId === i}
                                 onClick={()=>handleExpandClick(i)}
@@ -140,6 +151,7 @@ const ProductIndex = ({products}) => {
                             <Collapse in={expandedId === i} timeout="auto" unmountOnExit>
                                 <ProductModal productId={product.id}/>
                             </Collapse>
+                            {ownedProduct(product) ? <Button variant="contained" color="error">Remove</Button> : <Button variant="contained" color="success">Add</Button>}
                         </Item>
                     </Grid>
                     ))}
@@ -151,6 +163,7 @@ const ProductIndex = ({products}) => {
 
 const mapStateToProps = (state) => ({
     products: state.products.products,
+    userProducts: state.user.userProducts
 })
 
 export default connect(mapStateToProps, {getProducts})(ProductIndex)
