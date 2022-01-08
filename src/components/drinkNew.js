@@ -1,6 +1,7 @@
 import { useState, useEffect } from 'react'
 import { connect, useDispatch } from 'react-redux'
 import { getProducts } from '../actions/actionsProducts'
+import Grid from '@mui/material/Grid'
 import Box from '@mui/material/Box'
 import Select from '@mui/material/Select'
 import TextField from '@mui/material/TextField'
@@ -10,6 +11,7 @@ import FormHelperText from '@mui/material/FormHelperText'
 import InputLabel from '@mui/material/InputLabel'
 import Button from '@mui/material/Button'
 import Autocomplete from '@mui/material/Autocomplete'
+import { number } from 'prop-types'
 
 const DrinkNew = ({products, getProducts}) => {
 
@@ -18,21 +20,15 @@ const DrinkNew = ({products, getProducts}) => {
     const [drinkType, setDrinkType] = useState('')
     const [glassType, setGlassType] = useState('')
     const [drinkInstructions, setDrinkInstructions] = useState('')
-    const [ingredient, setIngredient] = useState({product_id: null, quantity: ''})
-    const [ingredientValue, setIngredientValue] = useState(products[0])
-    const [ingredientInputValue, setIngredientInputValue] = useState('')
-    const [ingredientValues, setIngredientValues] = useState([{product_id: null}])
+    const [ingredientValues, setIngredientValues] = useState([{product_id: null, quantity: ""}, {product_id: null, quantity: ""}])
+
     const handleSubmit = (e) => {
         e.preventDefault()
     }
-    // console.log(ingredientValues)
     useEffect(()=>{
         dispatch(getProducts)
     }, [dispatch])
 
-    const addIngredientValue = () => {
-        setIngredientValues([...ingredientValues, ''])
-    }
     const handleIngredientValueChange = (e, index) => {
         console.log(e.target.value)
         const updatedValues = ingredientValues.map((val, i) => {
@@ -49,13 +45,16 @@ const DrinkNew = ({products, getProducts}) => {
         console.log("clicked!")
         setIngredientValues(ingredientValues.filter((j) => j !== jump))
     }
-
-
+    
     const drinkTypes = ['Beer', 'Cocktail', 'Coffee/Tea', 'Homemade Liqueur', 'Milk / Float / Shake', 'Ordinary Drink', 'Other/Unknown', 'Punch / Party Drink', 'Shot', 'Soft Drink / Soda']
     const glassTypes = ['Balloon Glass', 'Beer Glass', 'Beer Mug', 'Brandy Snifter', 'Champagne Flute', 'Cocktail Glass', 'Coffee Mug', 'Collins Glass', 'Copper Mug', 'Cordial Glass', 'Coupe Glass', 'Highball Glass', 'Hurricane Glass', 'Irish Coffee Cup', 'Margarita Glass', 'Margarita/Coupette Glass', 'Martini Glass', 'Mason Jar', 'Nick and Nora Glass', 'Old-Fashioned Glass', 'Pilsner Glass', 'Pint Glass', 'Pitcher', 'Pousse Cafe Glass', 'Punch Bowl', 'Rocks Glass', 'Shot Glass', 'Whiskey Glass', 'Whiskey Sour Glass', 'Wine Glass' ]
-    
-    // console.log(ingredientValues.length)
-    // console.log(products)
+
+    const handleAddField = () => {
+        // let newIngredientValues = [...ingredientValues]
+        // newIngredientValues[i][e.target.name] = e.target.value
+        // setIngredientValues(newIngredientValues)
+        setIngredientValues([...ingredientValues, {product_id: null, quantity: ""}])
+    }
     return(
         <div>
             <h1>Add a Drink Recipe</h1>
@@ -90,32 +89,21 @@ const DrinkNew = ({products, getProducts}) => {
                         <FormHelperText>What type of glass does it go in?</FormHelperText>
                     </FormControl>
                 </div>
+            {ingredientValues.map((ingredient, index) => 
                 <div>
-                    {ingredientValues.map((jump, index) => (
-                    <Autocomplete
-                        disableCloseOnSelect
-                        autoSelect
-                        value={jump || ""}
-                        onChange={(e)=>handleIngredientValueChange(e, index)}
-                        fullWidth
-                        // renderValue={(p)=>p}
-                        disablePortal
-                        options={products.map(prod => prod.name)}
-                        inputValue={ingredientInputValue[jump]}
-                        onInputChange={(e, newInputValue) => setIngredientInputValue(newInputValue)}
-                        selectOnFocus={true}
-                        // getOptionLabel={prod =>{return (`${prod.name}: ${prod.id}`)}}
-                        getOptionLabel={(option) => `${option.name}`}
-                        renderOption={(props, option) => {return <li {...props}>{`${option.name}`}</li>}}
-                        renderInput={(params) => <TextField {...params} label={`Ingredient ${index + 1}`}/>}
-                        clearOnEscape
-                        // onClose={(e)=>deleteIngredientValue(jump)}
-                    />
-                    // {/* {products.map(prod => <MenuItem value={prod}>{prod.name}</MenuItem>)} */}
-                    // {/* </Autocomplete> */}
-                    ))}
-                    <Button disabled={ingredientValues.length >= 8} onClick={addIngredientValue}>{ingredientValues >= 8 ? "Ingredient Limit Reached" : "Add Ingredient"}</Button>
+                    <Grid item alignItems="stretch" style={{ display: "flex" }}>
+                        <Autocomplete
+                            onChange={(e, newValue) => setIngredientValues(newValue.id)}
+                            value={ingredient}
+                            options={products}
+                            getOptionLabel={(option) => option.name}
+                            getOptionSelected={(option) => option.name}
+                            renderInput={(params) => <TextField {...params} label="Product"/>}/>
+                        <TextField helperText="Ingredient Quantity" value={ingredient.quantity}/>
+                    </Grid>
                 </div>
+                )}
+                <Button onClick={() => handleAddField()}>Add Ingredient</Button>
                 <div>
                     <FormControl margin='dense' sx={{m:1, minWidth: 200}}>
                         <TextField helperText="How do you make your drink?" id="outlined-required" required multiline rows={4} label="Drink Instructions" value={drinkInstructions} onChange={(e)=>setDrinkInstructions(e.target.value)}/>
