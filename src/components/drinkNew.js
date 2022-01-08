@@ -20,7 +20,7 @@ const DrinkNew = ({products, getProducts}) => {
     const [drinkType, setDrinkType] = useState('')
     const [glassType, setGlassType] = useState('')
     const [drinkInstructions, setDrinkInstructions] = useState('')
-    const [ingredientValues, setIngredientValues] = useState([{product_id: null, quantity: ""}, {product_id: null, quantity: ""}])
+    const [ingredientValues, setIngredientValues] = useState([{product: null, quantity: ""}, {product: null, quantity: ""}])
 
     const handleSubmit = (e) => {
         e.preventDefault()
@@ -28,33 +28,22 @@ const DrinkNew = ({products, getProducts}) => {
     useEffect(()=>{
         dispatch(getProducts)
     }, [dispatch])
-
-    const handleIngredientValueChange = (e, index) => {
-        console.log(e.target.value)
-        const updatedValues = ingredientValues.map((val, i) => {
-            if (i == index) {
-                return e.target.value
-            } else {
-                return val
-            }
-        })
-        setIngredientValues(updatedValues)
-    }
-
-    const deleteIngredientValue = (jump) => {
-        console.log("clicked!")
-        setIngredientValues(ingredientValues.filter((j) => j !== jump))
-    }
     
     const drinkTypes = ['Beer', 'Cocktail', 'Coffee/Tea', 'Homemade Liqueur', 'Milk / Float / Shake', 'Ordinary Drink', 'Other/Unknown', 'Punch / Party Drink', 'Shot', 'Soft Drink / Soda']
     const glassTypes = ['Balloon Glass', 'Beer Glass', 'Beer Mug', 'Brandy Snifter', 'Champagne Flute', 'Cocktail Glass', 'Coffee Mug', 'Collins Glass', 'Copper Mug', 'Cordial Glass', 'Coupe Glass', 'Highball Glass', 'Hurricane Glass', 'Irish Coffee Cup', 'Margarita Glass', 'Margarita/Coupette Glass', 'Martini Glass', 'Mason Jar', 'Nick and Nora Glass', 'Old-Fashioned Glass', 'Pilsner Glass', 'Pint Glass', 'Pitcher', 'Pousse Cafe Glass', 'Punch Bowl', 'Rocks Glass', 'Shot Glass', 'Whiskey Glass', 'Whiskey Sour Glass', 'Wine Glass' ]
 
     const handleAddField = () => {
-        // let newIngredientValues = [...ingredientValues]
-        // newIngredientValues[i][e.target.name] = e.target.value
-        // setIngredientValues(newIngredientValues)
-        setIngredientValues([...ingredientValues, {product_id: null, quantity: ""}])
+        setIngredientValues([...ingredientValues, {product: null, quantity: ""}])
     }
+
+    const handleProductChange = (i, value) => {
+        setIngredientValues([...ingredientValues, ingredientValues[i].product = value])
+    }
+
+    const handleQuantityChange = (e, i) => {
+        setIngredientValues([...ingredientValues, ingredientValues[i].quantity = e.target.value])
+    }
+
     return(
         <div>
             <h1>Add a Drink Recipe</h1>
@@ -93,17 +82,18 @@ const DrinkNew = ({products, getProducts}) => {
                 <div>
                     <Grid item alignItems="stretch" style={{ display: "flex" }}>
                         <Autocomplete
-                            onChange={(e, newValue) => setIngredientValues(newValue.id)}
-                            value={ingredient}
+                            disablePortal
+                            onChange={(e, newValue) => handleProductChange(index, newValue)}
+                            value={ingredient.name}
                             options={products}
                             getOptionLabel={(option) => option.name}
-                            getOptionSelected={(option) => option.name}
+                            getOptionSelected={(option, value) => option.name === value.name}
                             renderInput={(params) => <TextField {...params} label="Product"/>}/>
-                        <TextField helperText="Ingredient Quantity" value={ingredient.quantity}/>
+                        <TextField helperText="Ingredient Quantity" onChange={(e) => handleQuantityChange(e, index)} value={ingredient.quantity}/>
                     </Grid>
                 </div>
                 )}
-                <Button onClick={() => handleAddField()}>Add Ingredient</Button>
+                <Button onClick={handleAddField}>Add Ingredient</Button>
                 <div>
                     <FormControl margin='dense' sx={{m:1, minWidth: 200}}>
                         <TextField helperText="How do you make your drink?" id="outlined-required" required multiline rows={4} label="Drink Instructions" value={drinkInstructions} onChange={(e)=>setDrinkInstructions(e.target.value)}/>
