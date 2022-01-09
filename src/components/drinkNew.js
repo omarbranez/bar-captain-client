@@ -33,7 +33,6 @@ const DrinkNew = ({products, getProducts}) => {
     const glassTypes = ['Balloon Glass', 'Beer Glass', 'Beer Mug', 'Brandy Snifter', 'Champagne Flute', 'Cocktail Glass', 'Coffee Mug', 'Collins Glass', 'Copper Mug', 'Cordial Glass', 'Coupe Glass', 'Highball Glass', 'Hurricane Glass', 'Irish Coffee Cup', 'Margarita Glass', 'Margarita/Coupette Glass', 'Martini Glass', 'Mason Jar', 'Nick and Nora Glass', 'Old-Fashioned Glass', 'Pilsner Glass', 'Pint Glass', 'Pitcher', 'Pousse Cafe Glass', 'Punch Bowl', 'Rocks Glass', 'Shot Glass', 'Whiskey Glass', 'Whiskey Sour Glass', 'Wine Glass' ]
 
     const handleAddField = () => {
-        console.log("called!")
         setIngredientValues([...ingredientValues, {product: null, quantity: ""}])
     }
     const handleRemoveField = (i) => {
@@ -101,8 +100,8 @@ const DrinkNew = ({products, getProducts}) => {
                             options={products}
                             getOptionLabel={(option) => option.name}
                             getOptionSelected={(option, value) => option.name === value.name}
-                            renderInput={(params) => <TextField {...params} label="Product"/>}/>
-                        <TextField helperText="Ingredient Quantity" onChange={(e) => handleQuantityChange(e, index)} value={ingredient.quantity}/>
+                            renderInput={(params) => <TextField {...params} label="Ingredient*" helperText="Ingredient Name"/>} />
+                        <TextField label="Quantity*" helperText="Ingredient Quantity" onChange={(e) => handleQuantityChange(e, index)} value={ingredient.quantity}/>
                         <Button disabled={index <= 1}style={{height: 75}} color="error" onClick={() => handleRemoveField(index)}>Remove Ingredient</Button>
                     </Grid>
                 </Grid>
