@@ -29,9 +29,8 @@ const DrinkNew = ({products, getProducts, createDrink}) => {
 
     const handleSubmit = (e) => {
         e.preventDefault()
-        console.log("I was clicked!")
         console.log(drinkName, drinkType, glassType, ingredientValues, drinkInstructions)
-
+        createDrink({drinkName, drinkType, glassType, ingredientValues, drinkInstructions, photoUrl}, navigate)
     }
     useEffect(()=>{
         dispatch(getProducts)

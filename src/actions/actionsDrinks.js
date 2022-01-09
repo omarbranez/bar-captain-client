@@ -22,8 +22,8 @@ export const setSelectedDrink = (id) => {
     }
 }
 
-export const createDrink = (formData, navigate) => {
-    console.log(formData)
+export const createDrink = (f, navigate) => {
+    console.log(f)
     return dispatch => {
         fetch(api + `/drinks`, {
             method: 'POST',
@@ -31,20 +31,34 @@ export const createDrink = (formData, navigate) => {
                 'Content-Type': 'application/json',
                 'Authorization': localStorage.token
             },
-            body: JSON.stringify(formData)
+            body: JSON.stringify({
+                name: f.drinkName,
+                drink_type: f.drinkType,
+                glass_type: f.glassType,
+                ingredients: f.ingredientValues,
+                instructions: f.drinkInstructions,
+                photo_url: f.photoUrl
+            })
         })
+        // .then(res => console.log(res.json()))
         .then(res => res.json())
-        .then(res => showNewDrink(res.data, dispatch)
-        .then(navigate(`/drinks/${res.drink.data.attributes.id}`, {replace: true}))
-    )}
+        .then(res => showNewDrink(res.variant, res.message, res.drink.data.attributes, navigate, dispatch))
+        // .then(getDrinks())
+            // navigate(`/drinks/${res.drink.data.attributes.id}`, {replace: true})}
+        // .then(navigate(`/drinks/${res.drink.data.attributes.id}`, {replace: true}))
+    }
 }
 
-const showNewDrink = (variant, message, dispatch) => {
+// export const showNewDrink = (variant, message, dispatch, navigate) => {
+export const showNewDrink = (variant, message, drink, navigate, dispatch) => {
     dispatch({
         type: "SNACKBAR_SHOW",
         payload: {variant, message}
     })
+    getDrinks()
+    navigate(`/drinks/${drink.id}`, {replace: true})
 }
+
 export const unsetSelectedDrink = () => ({
     type: "UNSET_SELECTED_DRINK"
 })

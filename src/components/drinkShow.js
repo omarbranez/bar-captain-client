@@ -3,7 +3,7 @@ import {connect} from 'react-redux'
 import { useParams, Link } from 'react-router-dom'
 import { setSelectedDrink, unsetSelectedDrink } from '../actions/actionsDrinks'
 
-const DrinkShow = ({setSelectedDrink, unsetSelectedDrink, id, name, drinkType, glassType, instructions, products}) => {
+const DrinkShow = ({setSelectedDrink, unsetSelectedDrink, id, name, drinkType, glassType, instructions, photoUrl, ingredients}) => {
 
     const {drinkId} = useParams()
     useEffect(()=>{
@@ -11,16 +11,19 @@ const DrinkShow = ({setSelectedDrink, unsetSelectedDrink, id, name, drinkType, g
         return unsetSelectedDrink
     }, [setSelectedDrink, drinkId, unsetSelectedDrink])
 
+
     const drinkProducts = () => 
     <div>
         <p>{name} requires the following ingredients:</p>
-        {products.map(product => <ul>{product.name}</ul>)}
+        {ingredients.map(ing => <ul>{ing.product.name}</ul>)}
     </div>
 
+    console.log(photoUrl)
     const loadedDrink = () => 
     <div>
         <div>
             <h2>{name}</h2>
+            <img src={photoUrl}/>
             <p>{drinkType}</p>
             <p>{glassType}</p>
             {drinkProducts()}
