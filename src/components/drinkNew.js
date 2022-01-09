@@ -33,15 +33,28 @@ const DrinkNew = ({products, getProducts}) => {
     const glassTypes = ['Balloon Glass', 'Beer Glass', 'Beer Mug', 'Brandy Snifter', 'Champagne Flute', 'Cocktail Glass', 'Coffee Mug', 'Collins Glass', 'Copper Mug', 'Cordial Glass', 'Coupe Glass', 'Highball Glass', 'Hurricane Glass', 'Irish Coffee Cup', 'Margarita Glass', 'Margarita/Coupette Glass', 'Martini Glass', 'Mason Jar', 'Nick and Nora Glass', 'Old-Fashioned Glass', 'Pilsner Glass', 'Pint Glass', 'Pitcher', 'Pousse Cafe Glass', 'Punch Bowl', 'Rocks Glass', 'Shot Glass', 'Whiskey Glass', 'Whiskey Sour Glass', 'Wine Glass' ]
 
     const handleAddField = () => {
+        console.log("called!")
         setIngredientValues([...ingredientValues, {product: null, quantity: ""}])
+    }
+    const handleRemoveField = (i) => {
+        let newIngredientValues = [...ingredientValues]
+        newIngredientValues.splice(i, 1)
+        setIngredientValues(newIngredientValues)
+        // setIngredientValues(ingredientValues.slice(i))
     }
 
     const handleProductChange = (i, value) => {
-        setIngredientValues([...ingredientValues, ingredientValues[i].product = value])
+        // setIngredientValues([ingredientValues[i].product = value, ...ingredientValues ])
+        let newIngredientValues = [...ingredientValues]
+        newIngredientValues[i].product = value
+        setIngredientValues(newIngredientValues)
     }
 
     const handleQuantityChange = (e, i) => {
-        setIngredientValues([...ingredientValues, ingredientValues[i].quantity = e.target.value])
+        // setIngredientValues([...ingredientValues, ingredientValues[i].quantity = e.target.value])
+        let newIngredientValues = [...ingredientValues]
+        newIngredientValues[i].quantity = e.target.value
+        setIngredientValues(newIngredientValues)
     }
 
     return(
@@ -79,7 +92,7 @@ const DrinkNew = ({products, getProducts}) => {
                     </FormControl>
                 </div>
             {ingredientValues.map((ingredient, index) => 
-                <div>
+                <Grid container direction="column" alignItems="center">
                     <Grid item alignItems="stretch" style={{ display: "flex" }}>
                         <Autocomplete
                             disablePortal
@@ -90,10 +103,11 @@ const DrinkNew = ({products, getProducts}) => {
                             getOptionSelected={(option, value) => option.name === value.name}
                             renderInput={(params) => <TextField {...params} label="Product"/>}/>
                         <TextField helperText="Ingredient Quantity" onChange={(e) => handleQuantityChange(e, index)} value={ingredient.quantity}/>
+                        <Button disabled={index <= 1}style={{height: 75}} color="error" onClick={() => handleRemoveField(index)}>Remove Ingredient</Button>
                     </Grid>
-                </div>
+                </Grid>
                 )}
-                <Button onClick={handleAddField}>Add Ingredient</Button>
+                <Button disabled={ingredientValues.length >= 8}variant="contained" onClick={handleAddField}>Add Ingredient</Button>
                 <div>
                     <FormControl margin='dense' sx={{m:1, minWidth: 200}}>
                         <TextField helperText="How do you make your drink?" id="outlined-required" required multiline rows={4} label="Drink Instructions" value={drinkInstructions} onChange={(e)=>setDrinkInstructions(e.target.value)}/>
