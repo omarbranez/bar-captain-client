@@ -1,6 +1,8 @@
 import { useState, useEffect } from 'react'
 import { connect, useDispatch } from 'react-redux'
+import { useNavigate } from 'react-router-dom'
 import { getProducts } from '../actions/actionsProducts'
+import { createDrink } from '../actions/actionsDrinks'
 import Grid from '@mui/material/Grid'
 import Box from '@mui/material/Box'
 import Select from '@mui/material/Select'
@@ -13,19 +15,23 @@ import Button from '@mui/material/Button'
 import Autocomplete from '@mui/material/Autocomplete'
 import { number } from 'prop-types'
 
-const DrinkNew = ({products, getProducts}) => {
+const DrinkNew = ({products, getProducts, createDrink}) => {
 
     const dispatch = useDispatch()
+    const navigate = useNavigate()
+
     const [drinkName, setDrinkName] = useState('')
     const [drinkType, setDrinkType] = useState('')
     const [glassType, setGlassType] = useState('')
     const [ingredientValues, setIngredientValues] = useState([{product: null, quantity: ""}, {product: null, quantity: ""}])
     const [drinkInstructions, setDrinkInstructions] = useState('')
     const [photoUrl, setPhotoUrl] = useState('')
+
     const handleSubmit = (e) => {
         e.preventDefault()
         console.log("I was clicked!")
         console.log(drinkName, drinkType, glassType, ingredientValues, drinkInstructions)
+
     }
     useEffect(()=>{
         dispatch(getProducts)
@@ -59,7 +65,7 @@ const DrinkNew = ({products, getProducts}) => {
     }
 
     const allIngredientFieldsFilled = ingredientValues.filter(({ product }) => product !== null).length == ingredientValues.length && ingredientValues.filter(({ quantity }) => quantity !== '').length == ingredientValues.length 
-    const isSubmitEnabled = !!drinkName && !!drinkType && !!glassType && !!drinkInstructions && allIngredientFieldsFilled
+    const isSubmitEnabled = !!drinkName && !!drinkType && !!glassType && !!drinkInstructions && !!photoUrl && allIngredientFieldsFilled
 
     return(
         <div>
@@ -135,4 +141,4 @@ const mapStateToProps = (state) => ({
     user: state.user
 })
 
-export default connect(mapStateToProps, {getProducts})(DrinkNew)
+export default connect(mapStateToProps, {getProducts, createDrink})(DrinkNew)

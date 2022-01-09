@@ -1,4 +1,3 @@
-// const DRINKS_URL = "https://barcaptain.herokuapp.com/drinks"
 const api = process.env.REACT_APP_API
 
 export const getDrinks = () => {
@@ -23,6 +22,29 @@ export const setSelectedDrink = (id) => {
     }
 }
 
+export const createDrink = (formData, navigate) => {
+    console.log(formData)
+    return dispatch => {
+        fetch(api + `/drinks`, {
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/json',
+                'Authorization': localStorage.token
+            },
+            body: JSON.stringify(formData)
+        })
+        .then(res => res.json())
+        .then(res => showNewDrink(res.data, dispatch)
+        .then(navigate(`/drinks/${res.drink.data.attributes.id}`, {replace: true}))
+    )}
+}
+
+const showNewDrink = (variant, message, dispatch) => {
+    dispatch({
+        type: "SNACKBAR_SHOW",
+        payload: {variant, message}
+    })
+}
 export const unsetSelectedDrink = () => ({
     type: "UNSET_SELECTED_DRINK"
 })
