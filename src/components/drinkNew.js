@@ -19,11 +19,13 @@ const DrinkNew = ({products, getProducts}) => {
     const [drinkName, setDrinkName] = useState('')
     const [drinkType, setDrinkType] = useState('')
     const [glassType, setGlassType] = useState('')
-    const [drinkInstructions, setDrinkInstructions] = useState('')
     const [ingredientValues, setIngredientValues] = useState([{product: null, quantity: ""}, {product: null, quantity: ""}])
-
+    const [drinkInstructions, setDrinkInstructions] = useState('')
+    const [photoUrl, setPhotoUrl] = useState('')
     const handleSubmit = (e) => {
         e.preventDefault()
+        console.log("I was clicked!")
+        console.log(drinkName, drinkType, glassType, ingredientValues, drinkInstructions)
     }
     useEffect(()=>{
         dispatch(getProducts)
@@ -56,6 +58,9 @@ const DrinkNew = ({products, getProducts}) => {
         setIngredientValues(newIngredientValues)
     }
 
+    const allIngredientFieldsFilled = ingredientValues.filter(({ product }) => product !== null).length == ingredientValues.length && ingredientValues.filter(({ quantity }) => quantity !== '').length == ingredientValues.length 
+    const isSubmitEnabled = !!drinkName && !!drinkType && !!glassType && !!drinkInstructions && allIngredientFieldsFilled
+
     return(
         <div>
             <h1>Add a Drink Recipe</h1>
@@ -65,7 +70,7 @@ const DrinkNew = ({products, getProducts}) => {
                 }}
                 noValidate
                 autoComplete="off"
-                onSubmit={handleSubmit}
+                // onSubmit={handleSubmit}
             >
                 <div>
                     <FormControl margin='dense' sx={{m:1, minWidth: 200}}>
@@ -101,7 +106,7 @@ const DrinkNew = ({products, getProducts}) => {
                             getOptionLabel={(option) => option.name}
                             getOptionSelected={(option, value) => option.name === value.name}
                             renderInput={(params) => <TextField {...params} label="Ingredient*" helperText="Ingredient Name"/>} />
-                        <TextField label="Quantity*" helperText="Ingredient Quantity" onChange={(e) => handleQuantityChange(e, index)} value={ingredient.quantity}/>
+                        <TextField required label="Quantity" helperText="Ingredient Quantity" onChange={(e) => handleQuantityChange(e, index)} value={ingredient.quantity}/>
                         <Button disabled={index <= 1}style={{height: 75}} color="error" onClick={() => handleRemoveField(index)}>Remove Ingredient</Button>
                     </Grid>
                 </Grid>
@@ -111,6 +116,14 @@ const DrinkNew = ({products, getProducts}) => {
                     <FormControl margin='dense' sx={{m:1, minWidth: 200}}>
                         <TextField helperText="How do you make your drink?" id="outlined-required" required multiline rows={4} label="Drink Instructions" value={drinkInstructions} onChange={(e)=>setDrinkInstructions(e.target.value)}/>
                     </FormControl>
+                </div>
+                <div>
+                    <FormControl margin='dense' sx={{m:1, minWidth: 200}}>
+                        <TextField label="Drink Photo URL" helperText="What does your drink look like?" id="outlined-required" required onChange={(e)=>setPhotoUrl(e.target.value)} value={photoUrl}/> 
+                    </FormControl>
+                </div>
+                <div>
+                    <Button disabled={!isSubmitEnabled} variant="contained" onClick={handleSubmit}>Submit New Drink</Button>
                 </div>
             </Box>
         </div>
